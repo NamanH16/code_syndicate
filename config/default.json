@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://Ganondorf980:Ganondorf980123@cluster0.lv7nqxv.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret":"mysecrettoken"
+}
