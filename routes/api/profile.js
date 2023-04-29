@@ -8,6 +8,7 @@ const User = require("../../models/User");
 // @route  GET api/profile/me
 // @desc   Get Current users profile
 // @access Private
+
 router.get("/me",auth, async (req, res)=> {
     try {
         const profile = await Profile.findOne({user: req.user.id}).populate('user',['name','avatar']);
@@ -24,6 +25,7 @@ router.get("/me",auth, async (req, res)=> {
 // @route  POST api/profile
 // @desc   Create or update user profile
 // @access Private
+
 router.post('/',[auth, [
     body('status','Status is required').not().isEmpty(),
     body('skills','Skills is required').not().isEmpty()
@@ -74,7 +76,12 @@ router.post('/',[auth, [
         if(profile){
             //Update
             profile= await Profile.findOneAndUpdate({user: req.user.id}, {$set:profileFields}, {new: true});
+            return res.json(profile);
         }
+        // Create
+        profile = new Profile(profileFields);
+        await profile.save();
+        res.json(profile);
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Server Error');
